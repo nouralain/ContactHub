@@ -211,8 +211,8 @@ function displayContacts() {
                 </div>`;
     }
 
+    rowData.innerHTML = box;
   }
-  rowData.innerHTML = box;
   if (allContacts.length === 0) {
     //it displays no contact if no data in the local storage
     noContact.classList.remove("d-none");
