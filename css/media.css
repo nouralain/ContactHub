@@ -1,0 +1,76 @@
+/* sm */
+
+@media screen and (min-width: 576px) {
+  
+}
+
+/* md */
+
+@media screen and (min-width: 768px) {
+
+.text-4xl-md {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xk-line-height);
+}
+.text-lg-md {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg-line-height);
+}
+.text-sm-md {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-line-height);
+}
+.text-base-md {
+  font-size: var(--text-base);
+  line-height: var(--text-base-line-height);
+}
+.text-xl-md {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl-line-height);
+}
+}
+
+/* lg */
+
+@media screen and (min-width: 992px) {
+ 
+ .border-top-lg-none {
+
+  border-top: none !important;
+}
+
+
+.rounded-top-0-xl {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius:0 !important;
+}
+.rounded-start-4-xl {
+  border-bottom-left-radius: var(--bs-border-radius-xl) !important;
+  border-top-left-radius: var(--bs-border-radius-xl) !important;
+}
+.rounded-bottom-0-xl {
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.rounded-end-4-xl {
+  border-top-right-radius: var(--bs-border-radius-xl) !important;
+  border-bottom-right-radius: var(--bs-border-radius-xl) !important;
+}
+
+
+}
+
+/* xl */
+
+@media screen and (min-width: 1200px) {
+ 
+  
+}
+
+/* xxl */
+
+@media screen and (min-width: 1400px) {
+ 
+
+  }
+
