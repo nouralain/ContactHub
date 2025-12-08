@@ -55,8 +55,10 @@ html {
  --gray-400:#99A1AF;
  --gray-500:#6A7282;
  --gray-600:#697181;
- --gray-700:#364153
+ --gray-700:#364153;
+ --gray-900:#545454;
 ;
+
 
 
   --gradient-violet: linear-gradient(315deg,rgba(79, 57, 246, 1) 0%, rgba(127, 34, 254, 1) 72%);
@@ -78,7 +80,7 @@ html {
 --light-green-2:#ECFDF5; 
 --light-violet:#EDE9FE;
 --light-violet-2:#F5F3FF;
---ligh-violet-3:#F3E8FF;
+--light-violet-3:#F3E8FF;
 --light-brown:#FEF3C6;
 --brown:#b55200;
 
@@ -137,8 +139,11 @@ a {
 .text-gray-700{
   color: var(--gray-700);
 }
+.text-gray-900{
+  color: var(--gray-900);
+}
 .bg-light-violet-3{
-  background-color: var(--ligh-violet-3);
+  background-color: var(--light-violet-3);
 }
 .bg-light-brown{
   background-color: var(--light-brown);
@@ -286,9 +291,9 @@ a {
   padding: 32px;
 }
 
-.pt-140 {
-  padding-top: 140px;
-  padding-bottom: 80px;
+.pt-80 {
+  padding-top: 80px;
+ 
 }
 .pb-50 {
   padding-top: 80px;
@@ -394,6 +399,10 @@ a {
 
 
 /* nav************************************* */
+.navbar{
+  backdrop-filter: blur(5px) !important;
+
+}
 .nav-btn{
   --bs-btn-padding-x: 16px;
   --bs-btn-padding-y: 10px;
@@ -630,3 +639,58 @@ transition: all 0.2s;
   border: 3px solid white;
 }
 
+.info-card-right:hover{
+  background-color: #FFFBEB;
+  cursor: pointer;
+}
+.info-card-right:hover .phone-icon{
+  background-color: #00BC7D;
+color: white;
+}
+
+.info-card-emerg:hover{
+  background-color: var(--light-red);
+  cursor: pointer;
+}
+.info-card-emerg:hover .phone-icon{
+  background-color:var(--red-200);
+color: white !important;
+}
+.position-sticky{
+  top: 80px;
+}
+
+.modal-btn{
+  --bs-btn-padding-x: 18px;
+  --bs-btn-padding-y: 10px;
+  --bs-btn-font-size: 16px;
+  --bs-btn-font-weight: 500;
+  --bs-btn-line-height: 24px;
+  --bs-btn-color:white; 
+  --bs-btn-bg:  #7066e0;
+  --bs-btn-border-width: var(--bs-border-width);
+  --bs-btn-border-color: transparent;
+  --bs-btn-border-radius: 12px;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-box-shadow: 0px 4px 10px 0px rgba(141,84,255,0.75);
+  --bs-btn-disabled-opacity: 0.65;
+  --bs-btn-focus-box-shadow: 0px 4px 10px 0px rgba(141,84,255,0.75);
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  
+  font-size: var(--bs-btn-font-size);
+  font-weight: var(--bs-btn-font-weight);
+  line-height: var(--bs-btn-line-height);
+  color: var(--bs-btn-color);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+  border-radius: var(--bs-btn-border-radius);
+  background-color: var(--bs-btn-bg);
+  transition:all 0.2s;
+
+}
