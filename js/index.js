@@ -22,8 +22,9 @@ let emergencyContacts = document.getElementById("emergencyContacts");
 let Totalcounter = 0;
 let emergencyConter;
 let favCounter;
+let btnClose = document.getElementById("btnClose");
 let favCard = document.getElementById("favouriteCard");
-let emergencyCard= document.getElementById("emergencyCard");
+let emergencyCard = document.getElementById("emergencyCard");
 let allContacts = [];
 
 // to display data after reload if local storage contains data
@@ -40,10 +41,11 @@ if (localStorage.getItem("contactInfo") !== null) {
 
 function addContact() {
   //function to add user values into object and add objects into an array and display the data after pushing it
+ 
   if (
-    validateInput(nameInput, "nameMsg") &&
-    validateInput(phoneInput, "phoneMsg") &&
-    validateInput(emailInput, "emailMsg")
+    validateInput(nameInput, "nameMsg", "Name", "name for the contact!") &&
+    validateInput(phoneInput, "phoneMsg", "Phone", "phone number!") &&
+    validateInput(emailInput, "emailMsg", "Email", "valid email address")
   ) {
     let contactInfo = {
       image: `images/${fileInput.files[0]?.name}`, //the ? to prevent the error of not finding the key if no image entered
@@ -64,9 +66,11 @@ function addContact() {
     displayContacts();
   }
   clear();
+  clearValidation()
 }
 
 function clear() {
+ 
   //function to format the inputs after user enter the button
   nameInput.value = null;
   phoneInput.value = null;
@@ -76,6 +80,19 @@ function clear() {
   notesTextArea.value = null;
   favouritCheckBox.checked = false;
   emergencyCheckBox.checked = false;
+
+ 
+}
+function clearValidation(){
+   let nameMsg= document.getElementById("nameMsg");
+  let phoneMsg= document.getElementById("phoneMsg");
+  let emailMsg= document.getElementById("emailMsg");
+  nameMsg.classList.add("d-none");
+      nameInput.classList.remove("border-danger");
+ phoneMsg.classList.add("d-none");
+      phoneInput.classList.remove("border-danger");
+ emailMsg.classList.add("d-none");
+      emailInput.classList.remove("border-danger");
 }
 
 function displayContacts() {
@@ -93,14 +110,14 @@ function displayContacts() {
   let favAbsoluteSpan;
   let selectContainer;
   let favBox = "";
-  let emergBox="";
+  let emergBox = "";
 
   for (let i = 0; i < allContacts.length; i++) {
     //to loop over the array to access objects inside it
     Totalcounter = i + 1;
 
     //function that returns the capital initials of the name
-    let upperCaseInitials= getUserInitials(i)
+    let upperCaseInitials = getUserInitials(i);
     //condition to display <img> if user entered image and if not display <span>***************
 
     if (allContacts[i].image === "images/undefined") {
@@ -144,7 +161,7 @@ function displayContacts() {
                           >Emergency</span
                         >`;
 
-emergBox+=`<div class="bg-gray-25 d-flex align-items-center justify-content-between mx-3 px-2 py-2 rounded-3 info-card-emerg mb-3">
+      emergBox += `<div class="bg-gray-25 d-flex align-items-center justify-content-between mx-3 px-2 py-2 rounded-3 info-card-emerg mb-3">
                     <div class="d-flex align-items-center justify-content-start gap-2">
                      ${imgeSmall}
                     <div>
@@ -166,7 +183,7 @@ emergBox+=`<div class="bg-gray-25 d-flex align-items-center justify-content-betw
                               class="fa-solid fa-phone text-red-200 fa-sm"
                             ></i
                           ></span></div>
-                  </div>`
+                  </div>`;
     } else {
       emergencyIconBtn = `<i
                             class="fa-regular fa-heart text-gray-400  fa-sm"
@@ -189,7 +206,6 @@ emergBox+=`<div class="bg-gray-25 d-flex align-items-center justify-content-betw
 
     //condition to increase the counter if the property of favouritcheckbox =true*************
     if (allContacts[i].favouritCheckBox) {
-      
       favCounter++;
       favIconBtn = ` <i class="fa-solid fa-star text-yellow fa-sm"></i
                         >`;
@@ -407,7 +423,7 @@ emergBox+=`<div class="bg-gray-25 d-flex align-items-center justify-content-betw
   }
 
   displayTotalContacts();
-  emergencyCard.innerHTML=emergBox;
+  emergencyCard.innerHTML = emergBox;
   favCard.innerHTML = favBox;
   emergencyContacts.innerHTML = `${emergencyConter}`;
   favContacts.innerHTML = `${favCounter}`;
@@ -427,6 +443,7 @@ function deleteContact(index) {
 }
 
 function updateInfo(index) {
+   
   //it display object values into the inputs again
   currentIndex = index; //to use the index of the contact that user clicked on its update btn
   nameInput.value = allContacts[index].name;
@@ -442,15 +459,18 @@ function updateInfo(index) {
   addBtn.classList.remove("d-block", "d-sm-inline");
   updateBtn.classList.remove("d-none");
   updateBtn.classList.add("d-block", "d-sm-inline");
+  
+clearValidation()
 }
 
 function updateContacts(currentIndex) {
   //function to update to object with the new values and display it and update local storage
   if (
-    validateInput(nameInput, "nameMsg") &&
-    validateInput(phoneInput, "phoneMsg") &&
-    validateInput(emailInput, "emailMsg")
+    validateInput(nameInput, "nameMsg", "Name", "name for the contact!") &&
+    validateInput(phoneInput, "phoneMsg", "Phone", "phone number!") &&
+    validateInput(emailInput, "emailMsg", "Email", "valid email address")
   ) {
+    
     let contactInfo = {
       image: `images/${fileInput.files[0]?.name}`,
       name: nameInput.value,
@@ -466,12 +486,15 @@ function updateContacts(currentIndex) {
     allContacts.splice(currentIndex, 1, contactInfo);
     displayContacts();
     localStorage.setItem("contactInfo", JSON.stringify(allContacts));
+    clear();
+clearValidation()
   }
 }
 
-function validateInput(element, msgId) {
+function validateInput(element, msgId, missingError, errorMsg) {
   //function to validate inputs
-
+  let typeOfError = document.getElementById("typeOfError");
+  let errorMessage = document.getElementById("errorMsgModal");
   let regex = {
     nameInput: /^[a-zA-Z ]{2,50}$/,
     phoneInput: /^(002|\+2)?[0][1][0|1|2|5][0-9]{8}$/,
@@ -480,72 +503,85 @@ function validateInput(element, msgId) {
   let text = element.value;
   let msg = document.getElementById(msgId);
 
-  if (regex[element.id].test(text)) {
-    msg.classList.add("d-none");
-    element.classList.remove("border-danger");
-    return true;
+  if (text === "") {
+    if (element.id === "emailInput") {
+      msg.classList.add("d-none");
+      element.classList.remove("border-danger");
+      return true;
+    } else {
+      msg.classList.remove("d-none");
+      element.classList.add("border-danger");
+      typeOfError.innerHTML = `Missing ${missingError}`;
+      errorMessage.innerHTML = `Please enter a ${errorMsg}`;
+      return false;
+    }
   } else {
-    msg.classList.remove("d-none");
-    element.classList.add("border-danger");
-    return false;
+    if (regex[element.id].test(text)) {
+      msg.classList.add("d-none");
+      element.classList.remove("border-danger");
+      return true;
+    } else {
+      msg.classList.remove("d-none");
+      element.classList.add("border-danger");
+      typeOfError.innerHTML = `Invalid  ${missingError}`;
+      errorMessage.innerHTML = `${msg.textContent}`;
+      return false;
+    }
   }
 }
+
 
 function displayTotalContacts() {
   totalContacts.innerHTML = `${Totalcounter}`;
 }
 
-function callBtn(index){
-   window.location.href = `tel:${allContacts[index].phone}`;
-   console.log( window.location.href)
+function callBtn(index) {
+  window.location.href = `tel:${allContacts[index].phone}`;
+  console.log(window.location.href);
 }
-function sendEmailBtn(index){
-   window.location.href = `mailto:${allContacts[index].email}`;
-   console.log( window.location.href)
-}
-
-function toggleFavBtn(index){
-  if(allContacts[index].favouritCheckBox){
-allContacts[index].favouritCheckBox =false;
-}
-else{
-  allContacts[index].favouritCheckBox =true;
-
+function sendEmailBtn(index) {
+  window.location.href = `mailto:${allContacts[index].email}`;
+  console.log(window.location.href);
 }
 
-displayContacts()
-  localStorage.setItem("contactInfo", JSON.stringify(allContacts)); 
+function toggleFavBtn(index) {
+  if (allContacts[index].favouritCheckBox) {
+    allContacts[index].favouritCheckBox = false;
+  } else {
+    allContacts[index].favouritCheckBox = true;
+  }
+
+  displayContacts();
+  localStorage.setItem("contactInfo", JSON.stringify(allContacts));
 }
 
-function toggleEmergBtn(index){
-  if(allContacts[index].emergencyCheckBox){
-allContacts[index].emergencyCheckBox =false;
-}
-else{
-  allContacts[index].emergencyCheckBox =true;
+function toggleEmergBtn(index) {
+  if (allContacts[index].emergencyCheckBox) {
+    allContacts[index].emergencyCheckBox = false;
+  } else {
+    allContacts[index].emergencyCheckBox = true;
+  }
 
-}
-
-displayContacts()
-  localStorage.setItem("contactInfo", JSON.stringify(allContacts)); 
+  displayContacts();
+  localStorage.setItem("contactInfo", JSON.stringify(allContacts));
 }
 
-function getUserInitials(index){
-  allContacts[index].name
-let splitNameArray=allContacts[index].name.split(" ");
-let initials;
- if (splitNameArray.length === 1) {
+function getUserInitials(index) {
+  allContacts[index].name;
+  let splitNameArray = allContacts[index].name.split(" ");
+  let initials;
+  if (splitNameArray.length === 1) {
     initials = splitNameArray[0].charAt(0);
-} else if (splitNameArray.length === 2) {
+  } else if (splitNameArray.length === 2) {
     initials = splitNameArray[0].charAt(0) + splitNameArray[1].charAt(0);
-} else {
+  } else {
     initials = splitNameArray[0].charAt(0) + splitNameArray[2].charAt(0);
+  }
+
+  return initials.toUpperCase();
 }
 
-return initials.toUpperCase();
-  
-}
-
-function randomImgGradients(){
-
+function clearAfterCloseBtn() {
+  clear();
+  clearValidation();
 }

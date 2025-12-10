@@ -249,6 +249,8 @@
                 </h2>
                 <!-- close button -->
                 <button
+                id="btnClose"
+                onclick="clearAfterCloseBtn()"
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
@@ -294,9 +296,10 @@
                       oninput="validateInput( this , 'nameMsg')"
                       type="text"
                       name="userName"
-                      class="form-control modaal"
+                      class="name form-control modaal"
                       id="nameInput"
                       placeholder="Enter full name"
+                      required
                     />
                     <p id="nameMsg" class="text-xs text-red-200 d-none mt-1">
                       Name should contain only letters and spaces (2-50
@@ -310,8 +313,8 @@
                     >
                     <input oninput="validateInput( this , 'phoneMsg')"
                     type="tel" name="userPhone" class="form-control modaal"
-                    id="phoneInput" placeholder="e.g., 01012345678"" >
-                    <p id="phoneMsg" class="text-xs text-red-200 d-none mt-1">
+                    id="phoneInput" placeholder="e.g., 01012345678" required >
+                    <p id="phoneMsg" class="text-xs text-red-200 d-none mt-1" >
                       Please enter a valid Egyptian phone number
                     </p>
                   </div>
@@ -437,27 +440,29 @@
         <!-- alert modal -->
 
         <div
-          class="modal fade"
+          class="modal modal-alert fade"
           id="alertModal"
           tabindex="-1"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog">
+         <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-body d-flex flex-column gap-2 align-items-center">
-                <span> <i class="fa-solid fa-x fa-2xl "></i></span>
-                <span class="text-3xl text-gray-900 fw-semibold"
-                  >Missing Phone</span
+              <div class="modal-body d-flex flex-column gap-2 align-items-center bg-white p-4 rounded-2">
+                <span class=" border-pastel-red rounded-circle d-flex align-items-center justify-content-center" style="width: 88px; height: 88px;"> <i class="fa-solid fa-x fa-2xl text-red-pastel"></i></span>
+                <span id="typeOfError" class="text-3xl text-gray-900 fw-semibold pt-4"
+                  ></span
                 >
-                <p class="text-lg text-gray-900">
-                  Please enter a phone number!
+                <p id="errorMsgModal" class="text-lg text-gray-900">
+                  
                 </p>
-                <button class="btn modal-btn"></button>
+                <button data-bs-dismiss="modal" class="btn modal-btn">OK</button>
               </div>
             </div>
           </div>
-        </div>
+ </div>
+         
+       
       </div>
     </header>
 
