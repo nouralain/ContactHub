@@ -25,6 +25,14 @@ let favCounter;
 let btnClose = document.getElementById("btnClose");
 let favCard = document.getElementById("favouriteCard");
 let emergencyCard = document.getElementById("emergencyCard");
+let typeOfError = document.getElementById("typeOfError");
+let errorMessage = document.getElementById("errorMsgModal");
+let failAlert = document.getElementById("failAlert");
+let successAlert = document.getElementById("successAlert");
+let okBtnAlertModal = document.getElementById("okBtnAlertModal");
+let deletedContactIndex;
+let deleteMsgModal = document.getElementById("deleteMsgModal");
+let noOfContacts = document.getElementById("noOfContacts");
 let allContacts = [];
 
 // to display data after reload if local storage contains data
@@ -41,12 +49,18 @@ if (localStorage.getItem("contactInfo") !== null) {
 
 function addContact() {
   //function to add user values into object and add objects into an array and display the data after pushing it
- 
+
   if (
     validateInput(nameInput, "nameMsg", "Name", "name for the contact!") &&
     validateInput(phoneInput, "phoneMsg", "Phone", "phone number!") &&
     validateInput(emailInput, "emailMsg", "Email", "valid email address")
   ) {
+    typeOfError.innerHTML = `Added!`;
+    errorMessage.innerHTML = `Contact has been added successfully.`;
+    successAlert.classList.remove("d-none");
+    failAlert.classList.add("d-none");
+    okBtnAlertModal.classList.add("d-none");
+
     let contactInfo = {
       image: `images/${fileInput.files[0]?.name}`, //the ? to prevent the error of not finding the key if no image entered
       name: nameInput.value,
@@ -66,11 +80,9 @@ function addContact() {
     displayContacts();
   }
   clear();
-  clearValidation()
+  clearValidation();
 }
-
 function clear() {
- 
   //function to format the inputs after user enter the button
   nameInput.value = null;
   phoneInput.value = null;
@@ -80,21 +92,18 @@ function clear() {
   notesTextArea.value = null;
   favouritCheckBox.checked = false;
   emergencyCheckBox.checked = false;
-
- 
 }
-function clearValidation(){
-   let nameMsg= document.getElementById("nameMsg");
-  let phoneMsg= document.getElementById("phoneMsg");
-  let emailMsg= document.getElementById("emailMsg");
+function clearValidation() {
+  let nameMsg = document.getElementById("nameMsg");
+  let phoneMsg = document.getElementById("phoneMsg");
+  let emailMsg = document.getElementById("emailMsg");
   nameMsg.classList.add("d-none");
-      nameInput.classList.remove("border-danger");
- phoneMsg.classList.add("d-none");
-      phoneInput.classList.remove("border-danger");
- emailMsg.classList.add("d-none");
-      emailInput.classList.remove("border-danger");
+  nameInput.classList.remove("border-danger");
+  phoneMsg.classList.add("d-none");
+  phoneInput.classList.remove("border-danger");
+  emailMsg.classList.add("d-none");
+  emailInput.classList.remove("border-danger");
 }
-
 function displayContacts() {
   //function to display contacts and search*********
   let box = "";
@@ -275,12 +284,12 @@ function displayContacts() {
         break;
       case "Other":
         selectContainer = `<span class="bg-gray-150 text-black text-xxs fw-medium me-2 p-1 rounded-1" 
-                          >School</span
+                          >Other</span
                         >`;
         break;
       case "selectagroup":
         selectContainer = `<span class="bg-gray-150 text-black text-xxs fw-medium me-2 p-1 rounded-1 d-none" 
-                          >School</span
+                          ></span
                         >`;
         break;
     }
@@ -388,7 +397,9 @@ function displayContacts() {
            <i class="fa-solid fa-pen text-gray-500 fa-sm"></i
           </button>
                         <button
-                        onclick="deleteContact(${i})"
+                        onclick="getIndexOfContact(${i})"
+                         data-bs-toggle="modal"
+                         data-bs-target="#deleteAlertModal"
                           class="btn bg-gray-50 rounded-3 d-flex align-items-center justify-content-center"
                           style="width: 36px; height: 36px"
                           ><i class="fa-solid fa-trash text-gray-500 fa-sm"></i
@@ -431,8 +442,13 @@ function displayContacts() {
   clear();
 }
 
-function deleteContact(index) {
-  allContacts.splice(index, 1); //it removes the contact i clicked on
+function getIndexOfContact(index) {
+  deletedContactIndex = index;
+  deleteMsgModal.innerHTML = ` Are you sure you want to delete ${allContacts[deletedContactIndex].name} ? This action cannot be undone.`;
+}
+
+function deleteContact(deletedContactIndex) {
+  allContacts.splice(deletedContactIndex, 1); //it removes the contact i clicked on
   Totalcounter--;
   emergencyConter--;
   favCounter--;
@@ -443,7 +459,6 @@ function deleteContact(index) {
 }
 
 function updateInfo(index) {
-   
   //it display object values into the inputs again
   currentIndex = index; //to use the index of the contact that user clicked on its update btn
   nameInput.value = allContacts[index].name;
@@ -459,8 +474,8 @@ function updateInfo(index) {
   addBtn.classList.remove("d-block", "d-sm-inline");
   updateBtn.classList.remove("d-none");
   updateBtn.classList.add("d-block", "d-sm-inline");
-  
-clearValidation()
+
+  clearValidation();
 }
 
 function updateContacts(currentIndex) {
@@ -470,7 +485,11 @@ function updateContacts(currentIndex) {
     validateInput(phoneInput, "phoneMsg", "Phone", "phone number!") &&
     validateInput(emailInput, "emailMsg", "Email", "valid email address")
   ) {
-    
+    typeOfError.innerHTML = `Updated!`;
+    errorMessage.innerHTML = `Contact has been updated successfully.`;
+    successAlert.classList.remove("d-none");
+    failAlert.classList.add("d-none");
+    okBtnAlertModal.classList.add("d-none");
     let contactInfo = {
       image: `images/${fileInput.files[0]?.name}`,
       name: nameInput.value,
@@ -486,15 +505,19 @@ function updateContacts(currentIndex) {
     allContacts.splice(currentIndex, 1, contactInfo);
     displayContacts();
     localStorage.setItem("contactInfo", JSON.stringify(allContacts));
+    addBtn.classList.remove("d-none");
+    addBtn.classList.add("d-block", "d-sm-inline");
+    updateBtn.classList.remove("d-block", "d-sm-inline");
+    updateBtn.classList.add("d-none");
+
     clear();
-clearValidation()
+    clearValidation();
   }
 }
 
 function validateInput(element, msgId, missingError, errorMsg) {
   //function to validate inputs
-  let typeOfError = document.getElementById("typeOfError");
-  let errorMessage = document.getElementById("errorMsgModal");
+
   let regex = {
     nameInput: /^[a-zA-Z ]{2,50}$/,
     phoneInput: /^(002|\+2)?[0][1][0|1|2|5][0-9]{8}$/,
@@ -513,6 +536,8 @@ function validateInput(element, msgId, missingError, errorMsg) {
       element.classList.add("border-danger");
       typeOfError.innerHTML = `Missing ${missingError}`;
       errorMessage.innerHTML = `Please enter a ${errorMsg}`;
+      successAlert.classList.add("d-none");
+      failAlert.classList.remove("d-none");
       return false;
     }
   } else {
@@ -525,14 +550,16 @@ function validateInput(element, msgId, missingError, errorMsg) {
       element.classList.add("border-danger");
       typeOfError.innerHTML = `Invalid  ${missingError}`;
       errorMessage.innerHTML = `${msg.textContent}`;
+      successAlert.classList.add("d-none");
+      failAlert.classList.remove("d-none");
       return false;
     }
   }
 }
 
-
 function displayTotalContacts() {
   totalContacts.innerHTML = `${Totalcounter}`;
+  noOfContacts.innerHTML = ` Manage and organize your ${Totalcounter} contacts`;
 }
 
 function callBtn(index) {
@@ -585,3 +612,8 @@ function clearAfterCloseBtn() {
   clear();
   clearValidation();
 }
+
+// if the location or email = null remove their icons
+// fix the cancel button
+// add hover effects
+//add rondom image icon colors

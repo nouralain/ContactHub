@@ -140,7 +140,7 @@
           <div class="col-xl-9">
             <div class="inner">
               <h2 class="text-2xl fw-bold m-0">All Contacts</h2>
-              <p class="text-sm text-gray-500 mt-1">
+              <p id="noOfContacts" class="text-sm text-gray-500 mt-1">
                 Manage and organize your 0 contacts
               </p>
               <div class="search position-relative">
@@ -249,8 +249,8 @@
                 </h2>
                 <!-- close button -->
                 <button
-                id="btnClose"
-                onclick="clearAfterCloseBtn()"
+                  id="btnClose"
+                  onclick="clearAfterCloseBtn()"
                   type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
@@ -311,10 +311,16 @@
                     <label for="phoneInput" class="form-label"
                       >Phone Number<span class="text-red-200">*</span></label
                     >
-                    <input oninput="validateInput( this , 'phoneMsg')"
-                    type="tel" name="userPhone" class="form-control modaal"
-                    id="phoneInput" placeholder="e.g., 01012345678" required >
-                    <p id="phoneMsg" class="text-xs text-red-200 d-none mt-1" >
+                    <input
+                      oninput="validateInput( this , 'phoneMsg')"
+                      type="tel"
+                      name="userPhone"
+                      class="form-control modaal"
+                      id="phoneInput"
+                      placeholder="e.g., 01012345678"
+                      required
+                    />
+                    <p id="phoneMsg" class="text-xs text-red-200 d-none mt-1">
                       Please enter a valid Egyptian phone number
                     </p>
                   </div>
@@ -414,6 +420,8 @@
                       >
                     </button>
                     <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#alertModal"
                       id="updateBtn"
                       onclick="updateContacts(currentIndex); "
                       class="btn btn-modal-save w-100 mb-2 mb-sm-0 bg-gradient-violet text-white d-none"
@@ -446,23 +454,93 @@
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-         <div class="modal-dialog">
+          <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-body d-flex flex-column gap-2 align-items-center bg-white p-4 rounded-2">
-                <span class=" border-pastel-red rounded-circle d-flex align-items-center justify-content-center" style="width: 88px; height: 88px;"> <i class="fa-solid fa-x fa-2xl text-red-pastel"></i></span>
-                <span id="typeOfError" class="text-3xl text-gray-900 fw-semibold pt-4"
-                  ></span
+              <div
+                class="modal-body d-flex flex-column gap-2 align-items-center bg-white p-4 rounded-2"
+              >
+                <span
+                  id="failAlert"
+                  class="border-pastel-red rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 88px; height: 88px"
                 >
-                <p id="errorMsgModal" class="text-lg text-gray-900">
-                  
-                </p>
-                <button data-bs-dismiss="modal" class="btn modal-btn">OK</button>
+                  <i class="fa-solid fa-x fa-2xl text-red-pastel"></i
+                ></span>
+                <span
+                  id="successAlert"
+                  class="border-lime rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 88px; height: 88px"
+                >
+                  <i class="fa-solid fa-check fa-2xl text-lime"></i
+                ></span>
+                <span
+                  id="typeOfError"
+                  class="text-3xl text-gray-900 fw-semibold pt-4"
+                ></span>
+                <p id="errorMsgModal" class="text-lg text-gray-900"></p>
+                <button
+                  id="okBtnAlertModal"
+                  data-bs-dismiss="modal"
+                  class="btn modal-btn"
+                >
+                  OK
+                </button>
               </div>
             </div>
           </div>
- </div>
-         
-       
+        </div>
+
+        <!-- delete alert modal -->
+        <div
+          class="modal modal-alert fade"
+          id="deleteAlertModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div
+                class="modal-body d-flex flex-column gap-2 align-items-center bg-white p-5 rounded-2"
+              >
+                <span
+                  id="successAlert"
+                  class="border-pastel-orange rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 88px; height: 88px"
+                >
+                  <i
+                    class="fa-solid fa-exclamation fa-2xl text-pastel-orange"
+                  ></i
+                ></span>
+                <span
+                  id="typeOfError"
+                  class="text-3xl text-gray-900 fw-semibold pt-4"
+                  >Delete Contact?</span
+                >
+                <p id="deleteMsgModal" class="text-lg text-gray-900 text-center">
+                 
+                </p>
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                  <button
+                  onclick="deleteContact(deletedContactIndex)"
+                  id="deleteBtnAlert"
+                  data-bs-dismiss="modal"
+                  class="btn modal-btn"
+                >
+                  Yes, delete it!
+                </button>
+                <button
+                  id="cancelBtnAlert"
+                  data-bs-dismiss="modal"
+                  class="btn modal-btn"
+                >
+                  Cancel
+                </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 

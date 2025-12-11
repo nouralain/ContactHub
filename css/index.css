@@ -84,6 +84,8 @@ html {
 --light-violet-3:#F3E8FF;
 --light-brown:#FEF3C6;
 --brown:#b55200;
+--lime:#d8fa99;
+--pastel-orange:#f8bb86;
 
 }
 
@@ -109,6 +111,12 @@ a {
   color: inherit;
 }
 
+.text-pastel-orange{
+  color: var(--pastel-orange);
+}
+.text-lime{
+  color: var(--lime);
+}
 .text-green{
   color: var(--green);
 }
@@ -153,8 +161,17 @@ a {
 .border-pastel-red{
   border: var(--red-pastel) solid 4px;
 }
+.border-lime{
+  border: var(--lime) solid 4px;
+}
+.border-pastel-orange{
+  border: var(--pastel-orange) solid 4px;
+}
 
 
+.bg-lime{
+  background-color: var(--lime);
+}
 .bg-light-violet-3{
   background-color: var(--light-violet-3);
 }
@@ -708,4 +725,10 @@ color: white !important;
 .modal-alert {
   top: 200px;
  
+}
+#deleteBtnAlert{
+  background-color: #DC2626;
+}
+#cancelBtnAlert{
+  background-color: #6B7280;
 }
